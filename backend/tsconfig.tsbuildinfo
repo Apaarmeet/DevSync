@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/config/db.ts","./src/controllers/authController.ts","./src/controllers/roomController.ts","./src/middleware/verifyToken.ts","./src/models/Room.ts","./src/models/User.ts","./src/routes/authRoutes.ts","./src/routes/roomRoutes.ts"],"version":"5.7.3"}
