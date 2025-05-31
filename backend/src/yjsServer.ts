@@ -8,7 +8,7 @@ import Room from './models/Room'; // Import the Room model
 dotenv.config();
 
 // MongoDB setup
-const mongoUri = process.env.MONGODB_URI!;
+const mongoUri = process.env.DATABASE_URL!;
 mongoose.connect(mongoUri)
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('MongoDB connection error:', err));
