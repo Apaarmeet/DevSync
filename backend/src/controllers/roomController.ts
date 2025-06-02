@@ -4,11 +4,11 @@ import {v4 as uuid} from "uuid"
 
 export const createRoom = async (req:Request, res:Response)=>{
     const roomId = uuid();
-    const {email} = req.body;
-
+    const user = (req as any).user;
+    console.log(user);
     const room  = new Room({
         roomId,
-        createdby: email,
+        createdBy: user.user_id,
         code: "",
     })
 
@@ -19,8 +19,8 @@ export const createRoom = async (req:Request, res:Response)=>{
 
 export const joinRoom = async (req:Request, res:Response)=>{
 
-    const roomId = req.query;
-    const {email} = req.body;
+    const roomId = req.query;   
+
 
     const room = await Room.findOne(roomId);
     if(!room){

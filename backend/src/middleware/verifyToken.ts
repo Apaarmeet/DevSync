@@ -15,7 +15,7 @@ const verifyToken = (req: Request, res: Response, next: NextFunction):void => {
          return;
     }
 
-    (req as any).user = user;
+     (req as any).user = user;
     next();
   });
 };

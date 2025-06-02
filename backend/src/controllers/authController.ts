@@ -20,8 +20,9 @@ export const signup = async (req:Request, res:Response): Promise<void> =>{
             password: hashed
         })
         await user.save();
-         res.status(201).json({message:"Signup Successful"});
-         return;
+         const token = jwt.sign({email:user.email, user_id:user._id},process.env.JWT_SECRET as string)
+         res.json({ token })
+         
     } catch(err){
         console.log(err);
          res.status(500).json({message:"internal server error"})
@@ -44,7 +45,7 @@ export const login = async (req:Request, res:Response):Promise<void> =>{
          return;
         }
 
-        const token = jwt.sign({userId:user._id},process.env.JWT_SECRET as string)
+        const token = jwt.sign({email:user.email, userId:user._id},process.env.JWT_SECRET as string)
         res.json({ token })
         return;
 
