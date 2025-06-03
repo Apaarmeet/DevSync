@@ -2,6 +2,7 @@ import {Request, Response} from 'express';
 import User from '../models/User';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import Room from '../models/Room';
 
 
 export const signup = async (req:Request, res:Response): Promise<void> =>{
@@ -45,7 +46,7 @@ export const login = async (req:Request, res:Response):Promise<void> =>{
          return;
         }
 
-        const token = jwt.sign({email:user.email, userId:user._id},process.env.JWT_SECRET as string)
+        const token = jwt.sign({email:user.email, user_id:user._id},process.env.JWT_SECRET as string)
         res.json({ token })
         return;
 
@@ -53,5 +54,16 @@ export const login = async (req:Request, res:Response):Promise<void> =>{
         console.log(err);
         res.status(500).json({message:"internal server error"})
         return;
+    }
+}
+
+export const home = async (req:Request, res:Response):Promise<void> =>{
+    try{
+        const {user_id} = (req as any).user;
+        const rooms = await Room.find({createdBy:user_id})
+        res.json(rooms);
+    } catch(err){
+        console.error(err);
+        res.status(500).json({ message: "Internal server error" });
     }
 }
