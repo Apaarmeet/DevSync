@@ -60,8 +60,9 @@ export const login = async (req:Request, res:Response):Promise<void> =>{
 export const home = async (req:Request, res:Response):Promise<void> =>{
     try{
         const {user_id} = (req as any).user;
-        const rooms = await Room.find({createdBy:user_id})
-        res.json(rooms);
+        const rooms = await Room.find({createdBy:user_id}).select("roomId")
+        const roomIds = rooms.map(room=> room.roomId);
+        res.json({roomIds});
     } catch(err){
         console.error(err);
         res.status(500).json({ message: "Internal server error" });
