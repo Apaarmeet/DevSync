@@ -1,25 +1,29 @@
 // pages/Home.tsx or components/Home.tsx
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { createRoom, joinRoom } from "../utils/api";
+import { getRooms } from "../utils/api";
 
  const Home = () => {
   const [roomIds, setRoomIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
-   async function getRooms(token: string): Promise<string[]> {
-  try {
-    const response = await axios.get("http://localhost:3000/api/v1/home", {
-      headers: {
-        Authorization: token,
-      },
-    });
-
-    return response.data.roomIds as string[];
-  } catch (error) {
-    console.error("Failed to fetch rooms:", error);
-    throw new Error("Failed to fetch rooms");
-  }
-}
+  
+  const token = localStorage.getItem("token")||"";
+  const handleCreateRoom = async () => {
+      try {
+        const newRoomId = await createRoom(token);
+        setRoomIds((prevRoomIds) => [...prevRoomIds, newRoomId]); // Add the new room to the list
+      } catch (err) {
+        console.error("Error creating room:", err);
+      }
+    };
+  const handleJoinRoom = async (roomId: string) => {
+      try {
+         await joinRoom(token,roomId);
+      } catch (err) {
+        console.error("Error creating room:", err);
+      }
+    };
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -37,13 +41,19 @@ import axios from "axios";
     fetchRooms();
   }, []);
 
+  
+
   if (loading) return <div className="text-center p-4">Loading rooms...</div>;
 
   return (
+    <div>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-6">
       {roomIds.map((roomId) => (
-        <RoomCard key={roomId} roomId={roomId} />
+        <RoomCard key={roomId} roomId={roomId} onJoinRoom={handleJoinRoom} />
       ))}
+    </div>
+    <button onClick={handleCreateRoom} type="button" className="text-white bg-green-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">Create</button>
+
     </div>
   );
 };
@@ -51,11 +61,22 @@ interface RoomCardProps {
   roomId: string;
 }
 
-  const RoomCard: React.FC<RoomCardProps> = ({ roomId }) => {
+  const RoomCard: React.FC<RoomCardProps> = ({ roomId, onJoinRoom }) => {
   return (
+    <div>
     <div className="p-4 rounded-2xl shadow-md bg-white border border-gray-200 hover:shadow-lg transition">
       <h3 className="text-lg font-semibold">Room ID</h3>
       <p className="text-gray-700 break-all">{roomId}</p>
+    </div>
+   <div>
+        <button
+          onClick={() => onJoinRoom(roomId)} // Pass the specific roomId to the onJoinRoom function
+          type="button"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+        >
+          Join
+        </button>
+      </div>
     </div>
   );
 };
