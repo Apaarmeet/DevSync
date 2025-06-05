@@ -31,7 +31,7 @@ export async function createRoom(token: string){
 
 export async function joinRoom(token: string, roomId: string){
     try{
-        const response = await axios.post(`http://localhost:3000/api/v1/join:${roomId}`, {},{
+        const response = await axios.post(`http://localhost:3000/api/v1/join/:${roomId}`, {},{
              headers:{
                 Authorization: token,
             },

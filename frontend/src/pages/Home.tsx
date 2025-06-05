@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { createRoom, joinRoom } from "../utils/api";
 import { getRooms } from "../utils/api";
+import { useNavigate } from "react-router-dom";
 
  const Home = () => {
   const [roomIds, setRoomIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
   
   const token = localStorage.getItem("token")||"";
   const handleCreateRoom = async () => {
@@ -20,6 +21,8 @@ import { getRooms } from "../utils/api";
   const handleJoinRoom = async (roomId: string) => {
       try {
          await joinRoom(token,roomId);
+         navigate(`/editor?roomId=${roomId}`);
+         
       } catch (err) {
         console.error("Error creating room:", err);
       }
@@ -59,6 +62,7 @@ import { getRooms } from "../utils/api";
 };
 interface RoomCardProps {
   roomId: string;
+  onJoinRoom:(roomId: string)=> void;
 }
 
   const RoomCard: React.FC<RoomCardProps> = ({ roomId, onJoinRoom }) => {
