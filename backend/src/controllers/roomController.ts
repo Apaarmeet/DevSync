@@ -29,7 +29,7 @@ export const joinRoom = async (req:Request, res:Response)=>{
     }
 
     
-     res.json({ msg: "Joined room", code: room.code });
+     res.json({ msg: "Joined room"});
      return;
 }
 
