@@ -4,11 +4,11 @@ const roomSchema = new mongoose.Schema({
     roomId: { type: String, required: true }, // Unique identifier for the room
     createdBy: { 
         type: mongoose.Schema.ObjectId,
-        required: true,
+        // required: true,
         ref: 'User'
     }, // Creator of the room
 
-    ydocState: { type: Buffer, required:true }, // Serialized Y.Doc state
+    ydocState: { type: Buffer}, // Serialized Y.Doc state
 });
 
 const Room = mongoose.model('Room', roomSchema);

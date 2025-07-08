@@ -7,10 +7,11 @@ const Editor: React.FC = () => {
   const editorRef = useRef<HTMLDivElement>(null);
   const editorInstanceRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
-  useEffect(() => {
+  useEffect( () => {
     // Extract roomId from the URL query parameters
     const urlParams = new URLSearchParams(window.location.search);
     const roomId = urlParams.get("roomId");
+    console.log("Room ID from URL:", roomId);
 
     if (!roomId) {
       console.error("Room ID is required in the URL");
@@ -21,7 +22,7 @@ const Editor: React.FC = () => {
     const ydoc = new Y.Doc();
 
     // Connect to the WebSocket server
-    const websocketProvider = new WebsocketProvider("ws://localhost:8080", roomId, ydoc);
+   const websocketProvider = new WebsocketProvider(`ws://localhost:8080?room=${roomId}`, roomId, ydoc);
 
     // Create a Y.Text instance for collaborative editing
     const ytext = ydoc.getText("monaco");
@@ -43,7 +44,7 @@ const Editor: React.FC = () => {
         model.setValue(ytext.toString());
 
         // Observe changes in Y.Text and update the editor
-        ytext.observe((event) => {
+        ytext.observe(() => {
           const currentValue = model.getValue();
           const newValue = ytext.toString();
           if (currentValue !== newValue) {

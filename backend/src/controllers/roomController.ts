@@ -19,10 +19,11 @@ export const createRoom = async (req:Request, res:Response)=>{
 
 export const joinRoom = async (req:Request, res:Response)=>{
 
-    const roomId = req.query;   
+    const {roomId} = req.params;   
 
+try{
 
-    const room = await Room.findOne(roomId);
+    const room = await Room.findOne({roomId});
     if(!room){
          res.status(401).json({message:"room not found"});
          return;
@@ -31,6 +32,10 @@ export const joinRoom = async (req:Request, res:Response)=>{
     
      res.json({ msg: "Joined room"});
      return;
+} catch(err){
+    console.error(err);
+}
+
 }
 
 export const saveCode = async (req:Request, res:Response)=>{
