@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
-import MonacoEditor from "react-monaco-editor";
+import Editor from '@monaco-editor/react';
 
-export default function Editor() {
+export default function CodeEditor() {
   const [searchParams] = useSearchParams();
   const roomId = searchParams.get("roomId");
   const [code, setCode] = useState("// Start coding...");
-  const editorRef = useRef(null);
+  const editorRef = useRef(null as any);
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
@@ -37,14 +37,14 @@ export default function Editor() {
 
   return (
     <div className="h-screen">
-      <MonacoEditor
+      <Editor
         height="80vh"
         width="80vw"
-        language="javascript"
+        defaultLanguage="javascript"
         theme="vs-dark"
         value={code}
-        onChange={onCodeChange}
-        editorDidMount={(editor) => (editorRef.current = editor)}
+        onChange={()=>onCodeChange}
+        onMount={(editor) => (editorRef.current = editor)}
       />
     </div>
   );
