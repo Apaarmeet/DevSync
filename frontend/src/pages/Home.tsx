@@ -1,88 +1,54 @@
-// pages/Home.tsx or components/Home.tsx
-import React, { useEffect, useState } from "react";
-import { createRoom, joinRoom } from "../utils/api";
-import { getRooms } from "../utils/api";
+import { useState } from "react";
+import { generateSlug } from "random-word-slugs";
 import { useNavigate } from "react-router-dom";
 
- const Home = () => {
-  const [roomIds, setRoomIds] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+function Home() {
+  const [roomId, setRoomId] = useState("");
   const navigate = useNavigate();
-  
-  const token = localStorage.getItem("token")||"";
-  const handleCreateRoom = async () => {
-      try {
-        const newRoomId = await createRoom(token);
-        setRoomIds((prevRoomIds) => [...prevRoomIds, newRoomId]); // Add the new room to the list
-      } catch (err) {
-        console.error("Error creating room:", err);
-      }
-    };
-  const handleJoinRoom = async (roomId: string) => {
-      try {
-         await joinRoom(token,roomId);
-         navigate(`/editor?roomId=${roomId}`);
-         
-      } catch (err) {
-        console.error("Error creating room:", err);
-      }
-    };
-
-  useEffect(() => {
-    const fetchRooms = async () => {
-      try {
-        const token = localStorage.getItem("token") || ""; // Adjust storage as needed
-        const ids = await getRooms(token);
-        setRoomIds(ids);
-      } catch (err) {
-        console.error("Error fetching rooms:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRooms();
-  }, []);
-
-  
-
-  if (loading) return <div className="text-center p-4">Loading rooms...</div>;
 
   return (
-    <div>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-6">
-      {roomIds.map((roomId) => (
-        <RoomCard key={roomId} roomId={roomId} onJoinRoom={handleJoinRoom} />
-      ))}
-    </div>
-    <button onClick={handleCreateRoom} type="button" className="text-white bg-green-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">Create</button>
+    <div className="min-h-screen bg-[#fadeb8] flex flex-col">
+      {/* Top Navbar */}
+      <div className="p-3">
+        <h1 className="text-9xl font-extrabold text-[#1a1a1a] drop-shadow-[7px_7px_0px_rgba(0,0,0,0.3)]" >
+          DevSync
+        </h1>
+    
 
-    </div>
-  );
-};
-interface RoomCardProps {
-  roomId: string;
-  onJoinRoom:(roomId: string)=> void;
-}
+      </div>
 
-  const RoomCard: React.FC<RoomCardProps> = ({ roomId, onJoinRoom }) => {
-  return (
-    <div>
-    <div className="p-4 rounded-2xl shadow-md bg-white border border-gray-200 hover:shadow-lg transition">
-      <h3 className="text-lg font-semibold">Room ID</h3>
-      <p className="text-gray-700 break-all">{roomId}</p>
-    </div>
-   <div>
-        <button
-          onClick={() => onJoinRoom(roomId)} // Pass the specific roomId to the onJoinRoom function
-          type="button"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-        >
-          Join
-        </button>
+      {/* Main Content */}
+      <div className="flex flex-1 items-center justify-center">
+        <div className="flex flex-col gap-6 items-center">
+          {/* Input + Generate Button */}
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="Enter Room Name"
+              value={roomId}
+              
+              className="h-11 px-3 text-lg font-bold text-slate-700 border-2 border-[#1a1a1a] rounded-lg shadow-[3px_3px_0px_#1a1a1a] focus:outline-none focus:border-[#1a1a1a]"
+            />
+            <button
+              className="px-4 h-11 bg-[#fdf6e3] border-2 border-[#1a1a1a] rounded-lg shadow-[3px_3px_0px_#1a1a1a] font-bold text-[#1a1a1a] transition-all hover:bg-[#fff8e7] active:bg-[#fcecc0] active:shadow-none active:translate-y-1"
+              type="button"
+              onClick={() => setRoomId(generateSlug())}
+            >
+              Generate Room Name
+            </button>
+          </div>
+
+          {/* Join Room Button */}
+          <button
+            className="px-5 py-2 text-2xl font-bold text-[#1a1a1a] bg-[#fdf6e3] border-2 border-[#1a1a1a] rounded-lg shadow-[5px_5px_0px_#1a1a1a] transition-all duration-300 ease-in-out hover:bg-[#fff8e7] active:bg-[#fcecc0] active:shadow-none active:translate-y-1"
+            onClick={() => navigate(`/editor?roomId=${roomId}`)}
+          >
+            Join Room
+          </button>
+        </div>
       </div>
     </div>
   );
-};
+}
 
-export default Home
+export default Home;

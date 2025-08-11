@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/yjsServer.ts","./src/config/db.ts","./src/controllers/authController.ts","./src/controllers/roomController.ts","./src/middleware/verifyToken.ts","./src/models/Room.ts","./src/models/User.ts","./src/routes/authRoutes.ts","./src/routes/roomRoutes.ts"],"version":"5.8.3"}
+{"root":["./src/yjsServer.ts"],"version":"5.8.3"}
