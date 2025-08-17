@@ -9,7 +9,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://dev-sync-brown.vercel.app/",
+    origin: "https://dev-sync-brown.vercel.app",
     methods: ["GET", "POST"],
   },
 });
