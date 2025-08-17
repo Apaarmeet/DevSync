@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import CEditor from '@monaco-editor/react';
+import { useAppSelector } from "../store/hook";
 
 export default function Editor() {
   const [searchParams] = useSearchParams();
@@ -9,6 +10,8 @@ export default function Editor() {
   const [code, setCode] = useState("// Start coding...");
   const editorRef = useRef(null);
   const socketRef = useRef<Socket | null>(null);
+
+  const selectedLang = useAppSelector((state) => state.language.currentLanguage);
 
   useEffect(() => {
     if (!roomId) return;
@@ -40,7 +43,7 @@ export default function Editor() {
       <CEditor
         height="80vh"
         width="80vw"
-        defaultLanguage="javascript"
+        language={selectedLang}
         theme="vs-dark"
         value={code}
         onChange={(val)=>onCodeChange(val || "")}
