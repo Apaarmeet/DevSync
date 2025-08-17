@@ -17,7 +17,7 @@ export default function Editor() {
     if (!roomId) return;
 
     // Pass roomId as query param to socket.io server
-    const socket = io("http://localhost:3001", {
+    const socket = io("https://devsync-rrwf.onrender.com/", {
       query: { roomId },
     });
     socketRef.current = socket;
@@ -47,6 +47,7 @@ export default function Editor() {
         theme="vs-dark"
         value={code}
         onChange={(val)=>onCodeChange(val || "")}
+        //@ts-ignore
         onMount={(editor) => (editorRef.current = editor)}
       />
     </div>
