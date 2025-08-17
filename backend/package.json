@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
    "build": "tsc -b",
-  "start": "node dist/yjs Srver.js"
+  "start": "node dist/yjsServer.js"
   },
   "keywords": [],
   "author": "",

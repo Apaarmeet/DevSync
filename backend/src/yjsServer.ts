@@ -29,4 +29,4 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3001, () => console.log("Server on http://localhost:3001"));
+server.listen(3001, () => console.log(`Server on http://localhost:3001`));
