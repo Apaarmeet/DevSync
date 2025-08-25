@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-   "build": "tsc -b",
-  "start": "node dist/yjsServer.js"
+    "build": "tsc -b",
+    "start": "node dist/yjsServer.js"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +15,7 @@
     "@types/ws": "^8.18.1",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
+    "dotenv": "^16.6.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.15.0",
@@ -23,7 +23,6 @@
     "socket.io": "^4.8.1",
     "uuid": "^11.1.0",
     "ws": "^8.18.2"
-
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

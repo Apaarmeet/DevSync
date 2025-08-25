@@ -1,6 +1,8 @@
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
+import dotenv from "dotenv";
+dotenv.config();
 import cors from "cors";
 
 const app = express();
@@ -9,7 +11,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://dev-sync-brown.vercel.app",
+    origin: true,
     methods: ["GET", "POST"],
   },
 });
@@ -29,4 +31,5 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(10000, () => console.log(`Server`));
+
+server.listen(process.env.PORT, () => console.log(`Server`));

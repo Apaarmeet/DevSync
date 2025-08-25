@@ -10,14 +10,13 @@ export default function Editor() {
   const [code, setCode] = useState("// Start coding...");
   const editorRef = useRef(null);
   const socketRef = useRef<Socket | null>(null);
-
   const selectedLang = useAppSelector((state) => state.language.currentLanguage);
 
   useEffect(() => {
+    console.log("Backend URL:", import.meta.env.VITE_BACKEND_SOCKET);
     if (!roomId) return;
-
     // Pass roomId as query param to socket.io server
-    const socket = io("https://devsync-rrwf.onrender.com/", {
+    const socket = io(import.meta.env.VITE_BACKEND_SOCKET, {
       query: { roomId },
     });
     socketRef.current = socket;
