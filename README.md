@@ -1,8 +1,7 @@
 # DevSync - Real-time Collaborative Code Editor
 
 <div align="center">
-
-![DevSync Logo](frontend/public/code.svg)
+<img src="frontend/public/code.svg" alt="DevSync Logo" width="300" height="300">
 
 A modern, real-time collaborative code editor that lets developers code together seamlessly.
 
